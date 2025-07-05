@@ -1,0 +1,4 @@
+# In backend/.gitignore
+node_modules/
+.env
+*.log
