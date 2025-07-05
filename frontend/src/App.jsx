@@ -19,6 +19,8 @@ import Disclaimer from './pages/Disclaimer.jsx';
 // Lottery Result Pages
 import LotteryHome from './pages/results/LotteryHome.jsx';
 import Kr710 from './pages/results/Kr710.jsx';
+import Ss400 from './pages/results/Ss400.jsx';
+import Ss471 from './pages/results/Ss471.jsx';
 
 // Movie Subcategory Pages
 import Eng from './pages/movies/Eng.jsx';
@@ -54,6 +56,8 @@ function App() {
         {/* Lottery Results */}
         <Route path="/lottery-result" element={<LotteryHome />} />
         <Route path="/lottery-result/kr710" element={<Kr710 />} />
+        <Route path="/lottery-result/ss400" element={<Ss400 />} />
+        <Route path="/lottery-result/ss471" element={<Ss471 />} />
 
         {/* Gadgets Page */}
         <Route path="/gadgets/under-15k" element={<Under15K />} />
