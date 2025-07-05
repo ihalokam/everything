@@ -24,7 +24,7 @@ import Ss400 from './pages/results/Ss400.jsx';
 
 // Movie Subcategory Pages
 import Eng from './pages/movies/Eng.jsx';
-import Mal from './pages/movies/Mal.jsx';
+import Mal from './pages/movies/mal.jsx';
 import Tel from './pages/movies/Tel.jsx';
 import Hin from './pages/movies/Hin.jsx';
 import Kann from './pages/movies/Kann.jsx';

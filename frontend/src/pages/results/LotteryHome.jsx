@@ -9,7 +9,9 @@ import { Helmet } from 'react-helmet-async';
 
 
 // Motion component for animations
-const MotionCard = motion(Card);
+const MotionCard = motion(Card, {
+  shouldForwardProp: (prop) => !['variants', 'initial', 'animate', 'exit', 'whileHover'].includes(prop),
+});
 
 // Animation variants
 const fadeIn = {
@@ -27,6 +29,21 @@ const LotteryHome = () => {
   const [lotteries, setLotteries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [componentError, setComponentError] = useState(null);
+
+  // Error boundary for the component
+  if (componentError) {
+    return (
+      <Box p={10} textAlign="center">
+        <Text color="red.500" fontSize="lg">
+          Something went wrong. Please refresh the page.
+        </Text>
+        <Text color="gray.500" fontSize="sm" mt={2}>
+          Error: {componentError.message}
+        </Text>
+      </Box>
+    );
+  }
 
   const bgColor = useColorModeValue('blue.50', 'gray.900');
   const textColor = useColorModeValue('gray.700', 'gray.200');
@@ -41,66 +58,94 @@ const LotteryHome = () => {
 
   // Fetch data from API
   useEffect(() => {
-          const fetchLotteries = async () => {
-        try {
-          console.log('Fetching lottery results...');
-          const response = await axios.get('/result/');
-          console.log('API Response:', response);
-          
-          if (response.data && response.data.success) {
-            setLotteries(response.data.data?.results || []);
-          } else {
-            console.error('API returned success: false');
-            setError('Failed to fetch lottery results.');
-          }
-        } catch (err) {
-          console.error('API Error:', err);
-          console.error('Error details:', err.response?.data);
-          setError('An error occurred while fetching data.');
-        } finally {
-          setLoading(false);
+    const fetchLotteries = async () => {
+      try {
+        console.log('Fetching lottery results...');
+        const response = await axios.get('/result/');
+        console.log('API Response:', response);
+        
+        if (response.data && response.data.success) {
+          const results = response.data.data?.results || [];
+          console.log('Lottery results:', results);
+          setLotteries(results);
+        } else {
+          console.error('API returned success: false');
+          setError('Failed to fetch lottery results.');
         }
-      };
+      } catch (err) {
+        console.error('API Error:', err);
+        console.error('Error details:', err.response?.data);
+        setError('An error occurred while fetching data.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    fetchLotteries();
+    // Wrap the entire fetch operation in a try-catch
+    try {
+      fetchLotteries();
+    } catch (error) {
+      console.error('Unexpected error in useEffect:', error);
+      setError('An unexpected error occurred.');
+      setLoading(false);
+    }
   }, []);
 
   // Format date to a readable string
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    if (!dateString) return 'Date not available';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid date';
+    }
   };
 
   // Format prize amount to Indian Rupees
   const formatPrize = (amount) => {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-    }).format(amount);
+    if (!amount || isNaN(amount)) return '₹0';
+    try {
+      return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0,
+      }).format(amount);
+    } catch (error) {
+      console.error('Error formatting prize:', error);
+      return '₹0';
+    }
   };
 
   // Format lottery number for URL (e.g., "KR-710" -> "kr710")
   const formatLotteryNumberForUrl = (lotteryNumber) => {
-    return lotteryNumber.replace('-', '').toLowerCase();
+    if (!lotteryNumber) return '';
+    try {
+      return lotteryNumber.replace('-', '').toLowerCase();
+    } catch (error) {
+      console.error('Error formatting lottery number:', error);
+      return '';
+    }
   };
 
-  return (
-    <><Helmet>
-      <title>Kerala Lottery Results Today – Winning Numbers & Prize Details</title>
-      <meta
-        name="description"
-        content="Get the latest Kerala lottery result today, including Karunya Plus, Sthree Sakthi, Bhagyathara & bumper draws. Check winning numbers, prize details and next draw dates."
-      />
-      <meta
-        name="keywords"
-        content="Kerala lottery result today, Kerala lottery results, Kerala lottery winning numbers, Karunya Plus result, Kerala bumper lottery result"
-      />
-
-    </Helmet>
+  try {
+    return (
+      <>
+        <Helmet>
+          <title>Kerala Lottery Results Today – Winning Numbers & Prize Details</title>
+          <meta
+            name="description"
+            content="Get the latest Kerala lottery result today, including Karunya Plus, Sthree Sakthi, Bhagyathara & bumper draws. Check winning numbers, prize details and next draw dates."
+          />
+          <meta
+            name="keywords"
+            content="Kerala lottery result today, Kerala lottery results, Kerala lottery winning numbers, Karunya Plus result, Kerala bumper lottery result"
+          />
+        </Helmet>
 
       <Box bgGradient={gradientBg} py={{ base: 12, md: 16 }} minH="100vh">
         <Container maxW="container.xl">
@@ -148,13 +193,20 @@ const LotteryHome = () => {
               </Text>
             ) : (
               <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing={{ base: 5, md: 7 }}>
-                {lotteries.map((lottery, index) => (
-                  <Link
-                    as={RouterLink}
-                    to={`/lottery-result/${formatLotteryNumberForUrl(lottery.lotteryNumber)}`}
-                    key={lottery._id}
-                    _hover={{ textDecoration: 'none' }}
-                  >
+                {lotteries.map((lottery, index) => {
+                  // Skip rendering if lottery data is invalid
+                  if (!lottery || !lottery._id) {
+                    console.warn('Invalid lottery data:', lottery);
+                    return null;
+                  }
+                  
+                  return (
+                    <Link
+                      as={RouterLink}
+                      to={`/lottery-result/${formatLotteryNumberForUrl(lottery.lotteryNumber)}`}
+                      key={lottery._id}
+                      _hover={{ textDecoration: 'none' }}
+                    >
                     <MotionCard
                       variants={fadeIn}
                       initial="hidden"
@@ -205,14 +257,26 @@ const LotteryHome = () => {
                       </CardBody>
                     </MotionCard>
                   </Link>
-                ))}
+                );
+                })}
               </SimpleGrid>
             )}
           </VStack>
         </Container>
       </Box>
-    </>
-  );
+      </>
+    );
+  } catch (error) {
+    console.error('Component error:', error);
+    setComponentError(error);
+    return (
+      <Box p={10} textAlign="center">
+        <Text color="red.500" fontSize="lg">
+          Something went wrong. Please refresh the page.
+        </Text>
+      </Box>
+    );
+  }
 };
 
 export default LotteryHome;
