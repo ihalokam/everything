@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Box, Container, SimpleGrid, Heading, Text, Link, VStack, Card, CardBody, CardHeader, useColorModeValue, Spinner, Alert, AlertIcon, Badge } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 import { Helmet } from 'react-helmet-async';
 
@@ -43,7 +43,7 @@ const LotteryHome = () => {
   useEffect(() => {
     const fetchLotteries = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/result/');
+        const response = await axios.get('/result/');
         if (response.data.success) {
           setLotteries(response.data.data.results);
         } else {

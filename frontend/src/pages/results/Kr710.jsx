@@ -19,7 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FaTicketAlt } from 'react-icons/fa';
-import axios from 'axios';
+import axios from '../../api/axios';
 
 // Motion component for animations
 const MotionBox = motion(Box);
@@ -60,7 +60,7 @@ const Kr710 = () => {
   useEffect(() => {
     const fetchLottery = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/result/KR-710');
+        const res = await axios.get('/result/KR-710');
         if (res.data.success) {
           setLottery(res.data.data);
         } else {

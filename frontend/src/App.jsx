@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { Route, Routes } from 'react-router-dom';
+import { useEffect } from 'react';
 
 // Global Layout Components
 import Navbar from './components/Navbar.jsx';
@@ -34,6 +35,11 @@ import Tam from './pages/movies/Tam.jsx';
 import Under15K from './pages/gadgets/Under15K.jsx';
 
 function App() {
+  useEffect(() => {
+    console.log('App component mounted');
+    console.log('API URL:', import.meta.env.VITE_API_URL);
+  }, []);
+
   return (
     <Box minH="100vh">
       <Navbar />
