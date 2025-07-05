@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://ihalokam.com/sitemap.xml

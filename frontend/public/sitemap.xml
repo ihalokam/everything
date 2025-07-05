@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Home -->
+  <url>
+    <loc>https://yourdomain.com/</loc>
+    <priority>1.0</priority>
+  </url>
+  <!-- Main Pages -->
+  <url>
+    <loc>https://ihalokam.com/about</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/blogs</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/contact</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/disclaimer</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/gadget</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/privacy</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/terms</loc>
+  </url>
+  <!-- Movies Section -->
+  <url>
+    <loc>https://ihalokam.com/movies</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/eng</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/hin</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/kann</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/mal</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/tam</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/movies/tel</loc>
+  </url>
+  <!-- Gadgets Section -->
+  <url>
+    <loc>https://ihalokam.com/gadgets/under15k</loc>
+  </url>
+  <!-- Results Section -->
+  <url>
+    <loc>https://ihalokam.com/results/kr710</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/results/ss400</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/results/ss471</loc>
+  </url>
+  <url>
+    <loc>https://ihalokam.com/results/lotteryhome</loc>
+  </url>
+</urlset>
