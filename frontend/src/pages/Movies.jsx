@@ -1,4 +1,3 @@
-
 import { Box, Button, VStack, Heading, Text, Container, SimpleGrid, useColorModeValue } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { Link as RouterLink } from 'react-router-dom';

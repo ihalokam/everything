@@ -41,20 +41,26 @@ const LotteryHome = () => {
 
   // Fetch data from API
   useEffect(() => {
-    const fetchLotteries = async () => {
-      try {
-        const response = await axios.get('/result/');
-        if (response.data.success) {
-          setLotteries(response.data.data.results);
-        } else {
-          setError('Failed to fetch lottery results.');
+          const fetchLotteries = async () => {
+        try {
+          console.log('Fetching lottery results...');
+          const response = await axios.get('/result/');
+          console.log('API Response:', response);
+          
+          if (response.data && response.data.success) {
+            setLotteries(response.data.data?.results || []);
+          } else {
+            console.error('API returned success: false');
+            setError('Failed to fetch lottery results.');
+          }
+        } catch (err) {
+          console.error('API Error:', err);
+          console.error('Error details:', err.response?.data);
+          setError('An error occurred while fetching data.');
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        setError('An error occurred while fetching data.');
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
     fetchLotteries();
   }, []);

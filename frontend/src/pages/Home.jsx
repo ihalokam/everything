@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
+// Create MotionBox by wrapping Box with motion
 const MotionBox = motion(Box);
 
 const movie_images = [
@@ -24,8 +25,6 @@ const gadget_images = [
 ];
 
 const Home = () => {
-  console.log('Home component rendering...');
-
   const [movieIndex, setMovieIndex] = useState(0);
   const [gadgetIndex, setGadgetIndex] = useState(0);
   const navigate = useNavigate();
@@ -95,15 +94,15 @@ const Home = () => {
     exit: { opacity: 0, x: -50, transition: { duration: 0.5, ease: 'easeIn' } },
   };
 
-  // Define animatable boxShadow values
+  // Define animatable boxShadow values (approximating Chakra UI's shadow tokens)
   const shadowStyles = {
     base: useColorModeValue(
-      '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-      '0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2)'
+      '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)', // Approx. 'md' in light mode
+      '0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2)' // Approx. 'md' in dark mode
     ),
     hover: useColorModeValue(
-      '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-      '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)'
+      '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // Approx. 'lg' in light mode
+      '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)' // Approx. 'lg' in dark mode
     ),
   };
 
@@ -114,113 +113,113 @@ const Home = () => {
         <meta name="description" content="Get latest updates on OTT movies, gadgets, blogs and Kerala lottery results – all in one place on IhaLokam." />
       </Helmet>
       <Box maxW="1200px" mx="auto" py={8} px={4}>
-        {/* Movie Section */}
-        <Heading as="h1" size="xl" textAlign="center" mb={6} color={textColor}>
-          Too Bored? Wanna Watch a Movie?
-        </Heading>
-        <Flex alignItems="center" justifyContent="space-between" mb={12}>
-          <IconButton
-            aria-label="Previous Movie"
-            icon={<ChevronLeftIcon />}
-            onClick={goToPreviousMovie}
-            size="lg"
-            variant="ghost"
-            _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
-            transition="all 0.3s ease"
-          />
-          <Flex overflow="hidden" w="100%" justifyContent="center" gap={4}>
-            {visibleMovieImages.map((src, index) => (
-              <MotionBox
-                key={`movie-${src}-${index}`}
-                variants={imageVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ scale: 1.05, boxShadow: shadowStyles.hover }}
-                transition={{ duration: 0.3 }}
-                cursor="pointer"
-                onClick={handleMovieImageClick}
-                style={{ boxShadow: shadowStyles.base }}
-              >
-                <Image
-                  src={src}
-                  alt={`Movie Slide ${index + 1}`}
-                  objectFit="cover"
-                  w={{ base: '100%', md: '30%' }}
-                  h="300px"
-                  borderRadius="md"
-                  fallbackSrc="https://placehold.co/300x300?text=Movie+Image"
-                />
-              </MotionBox>
-            ))}
-          </Flex>
-          <IconButton
-            aria-label="Next Movie"
-            icon={<ChevronRightIcon />}
-            onClick={goToNextMovie}
-            size="lg"
-            variant="ghost"
-            _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
-            transition="all 0.3s ease"
-          />
-        </Flex>
-        <Text mt={6} textAlign="center" fontSize="md" color={textColor} mb={12}>
-          Here in this website, you can catch the latest OTT movie updates in multiple languages like Malayalam, Tamil, Telugu, Kannada, Hindi, and English. Whether you're craving a gripping Malayalam thriller, a colorful Tamil family drama, a high-energy Telugu action flick, a heartfelt Kannada story, a grand Hindi blockbuster, or a sleek English series, we've got it all. We update daily, so you're always in the loop with fresh releases, trending titles, and hidden gems across your favorite streaming platforms. Just browse, pick your language, and find your next binge-worthy movie or show in a snap!
-        </Text>
 
-        {/* Gadget Section */}
-        <Heading as="h1" size="xl" textAlign="center" mb={6} color={textColor}>
-          Are You Confused with Which Gadget is Good?
-        </Heading>
-        <Flex alignItems="center" justifyContent="space-between" mb={12}>
-          <IconButton
-            aria-label="Previous Gadget"
-            icon={<ChevronLeftIcon />}
-            onClick={goToPreviousGadget}
-            size="lg"
-            variant="ghost"
-            _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
-            transition="all 0.3s ease"
-          />
-          <Flex overflow="hidden" w="100%" justifyContent="center" gap={4}>
-            {visibleGadgetImages.map((src, index) => (
-              <MotionBox
-                key={`gadget-${src}-${index}`}
-                variants={imageVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                whileHover={{ scale: 1.05, boxShadow: shadowStyles.hover }}
-                transition={{ duration: 0.3 }}
-                cursor="pointer"
-                onClick={handleGadgetImageClick}
-                style={{ boxShadow: shadowStyles.base }}
-              >
-                <Image
-                  src={src}
-                  alt={`Gadget Slide ${index + 1}`}
-                  objectFit="cover"
-                  w={{ base: '100%', md: '30%' }}
-                  h="300px"
-                  borderRadius="md"
-                  fallbackSrc="https://placehold.co/300x300?text=Gadget+Image"
-                />
-              </MotionBox>
-            ))}
-          </Flex>
-          <IconButton
-            aria-label="Next Gadget"
-            icon={<ChevronRightIcon />}
-            onClick={goToNextGadget}
-            size="lg"
-            variant="ghost"
-            _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
-            transition="all 0.3s ease"
-          />
+      {/* Movie Section */}
+      <Heading as="h1" size="xl" textAlign="center" mb={6} color={textColor}>
+        Too Bored? Wanna Watch a Movie?
+      </Heading>
+      <Flex alignItems="center" justifyContent="space-between" mb={12}>
+        <IconButton
+          aria-label="Previous Movie"
+          icon={<ChevronLeftIcon />}
+          onClick={goToPreviousMovie}
+          size="lg"
+          variant="ghost"
+          _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
+          transition="all 0.3s ease"
+        />
+        <Flex overflow="hidden" w="100%" justifyContent="center" gap={4}>
+          {visibleMovieImages.map((src, index) => (
+            <MotionBox
+              key={`movie-${src}-${index}`}
+              variants={imageVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              whileHover={{ scale: 1.05, boxShadow: shadowStyles.hover }}
+              transition={{ duration: 0.3 }}
+              cursor="pointer"
+              onClick={handleMovieImageClick}
+              style={{ boxShadow: shadowStyles.base }}
+            >
+              <Image
+                src={src}
+                alt={`Movie Slide ${index + 1}`}
+                objectFit="cover"
+                w={{ base: '100%', md: '30%' }}
+                h="300px"
+                borderRadius="md"
+              />
+            </MotionBox>
+          ))}
         </Flex>
-        <Text mt={6} textAlign="center" fontSize="md" color={textColor}>
-          Here in this website, you can find the best gadget reviews to clear up your confusion and pick the perfect tech for you. We cover the latest releases like foldable phones, smartwatches, gaming handhelds, and more, with honest insights on what's worth your money. Whether you're eyeing a new device in Kerala, across India, or globally, our daily updates in Malayalam and English break down features, performance, and prices, so you can shop smart and stay ahead of the tech curve!
-        </Text>
+        <IconButton
+          aria-label="Next Movie"
+          icon={<ChevronRightIcon />}
+          onClick={goToNextMovie}
+          size="lg"
+          variant="ghost"
+          _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
+          transition="all 0.3s ease"
+        />
+      </Flex>
+      <Text mt={6} textAlign="center" fontSize="md" color={textColor} mb={12}>
+        Here in this website, you can catch the latest OTT movie updates in multiple languages like Malayalam, Tamil, Telugu, Kannada, Hindi, and English. Whether you’re craving a gripping Malayalam thriller, a colorful Tamil family drama, a high-energy Telugu action flick, a heartfelt Kannada story, a grand Hindi blockbuster, or a sleek English series, we’ve got it all. We update daily, so you’re always in the loop with fresh releases, trending titles, and hidden gems across your favorite streaming platforms. Just browse, pick your language, and find your next binge-worthy movie or show in a snap!
+      </Text>
+
+      {/* Gadget Section */}
+      <Heading as="h1" size="xl" textAlign="center" mb={6} color={textColor}>
+        Are You Confused with Which Gadget is Good?
+      </Heading>
+      <Flex alignItems="center" justifyContent="space-between" mb={12}>
+        <IconButton
+          aria-label="Previous Gadget"
+          icon={<ChevronLeftIcon />}
+          onClick={goToPreviousGadget}
+          size="lg"
+          variant="ghost"
+          _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
+          transition="all 0.3s ease"
+        />
+        <Flex overflow="hidden" w="100%" justifyContent="center" gap={4}>
+          {visibleGadgetImages.map((src, index) => (
+            <MotionBox
+              key={`gadget-${src}-${index}`}
+              variants={imageVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              whileHover={{ scale: 1.05, boxShadow: shadowStyles.hover }}
+              transition={{ duration: 0.3 }}
+              cursor="pointer"
+              onClick={handleGadgetImageClick}
+              style={{ boxShadow: shadowStyles.base }}
+            >
+              <Image
+                src={src}
+                alt={`Gadget Slide ${index + 1}`}
+                objectFit="cover"
+                w={{ base: '100%', md: '30%' }}
+                h="300px"
+                borderRadius="md"
+                fallbackSrc="https://placehold.co/300x300?text=Gadget+Image"
+              />
+            </MotionBox>
+          ))}
+        </Flex>
+        <IconButton
+          aria-label="Next Gadget"
+          icon={<ChevronRightIcon />}
+          onClick={goToNextGadget}
+          size="lg"
+          variant="ghost"
+          _hover={{ bg: useColorModeValue('gray.100', 'gray.700'), transform: 'scale(1.1)' }}
+          transition="all 0.3s ease"
+        />
+      </Flex>
+      <Text mt={6} textAlign="center" fontSize="md" color={textColor}>
+        Here in this website, you can find the best gadget reviews to clear up your confusion and pick the perfect tech for you. We cover the latest releases like foldable phones, smartwatches, gaming handhelds, and more, with honest insights on what’s worth your money. Whether you’re eyeing a new device in Kerala, across India, or globally, our daily updates in Malayalam and English break down features, performance, and prices, so you can shop smart and stay ahead of the tech curve!
+              </Text>
       </Box>
     </>
   );

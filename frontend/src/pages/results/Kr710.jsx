@@ -61,12 +61,15 @@ const Kr710 = () => {
     const fetchLottery = async () => {
       try {
         const res = await axios.get('/result/KR-710');
-        if (res.data.success) {
+        console.log('KR-710 API Response:', res);
+        
+        if (res.data && res.data.success) {
           setLottery(res.data.data);
         } else {
           setError('Failed to fetch lottery details.');
         }
-      } catch {
+      } catch (err) {
+        console.error('KR-710 API Error:', err);
         setError('An error occurred while fetching data.');
       } finally {
         setLoading(false);

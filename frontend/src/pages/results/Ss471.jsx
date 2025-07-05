@@ -36,7 +36,7 @@ const Ss471 = () => {
   useEffect(() => {
     const fetchResult = async () => {
       try {
-        const res = await axios.get('/result/SS-400');
+        const res = await axios.get('/result/SS-471');
         if (res.data.success) {
           setResult(res.data.data);
         } else {
